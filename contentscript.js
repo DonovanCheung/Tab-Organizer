@@ -10,14 +10,9 @@ Should users be able to drag _tabs between _windows
 Double click to edit the url
 Use arrow keys to navigate _tabs between _windows and the tabSection
 Should I have the first _window popup last
-Should it add tabs chronologically based on the order of the users' clicks
-Should it have a custom reset button to make it more responsive (Gets rid of
-blinking issue, has a nice animation, and allows the user to keep the _windows
-they have opened)
-Clarify the difference between _tab and _tabs
-Give better names to _selectInTabs and _selectInWins
 Give it the ability to save webpages for later
-Make it available to Firefoz too
+Make it available to Firefox too
+Button to default place tabs in respective windowsButton to reset tab placements
 */
 
 $(document).ready(function(){
@@ -26,12 +21,12 @@ $(document).ready(function(){
   var targetWindow = null; // CHECK
   var tabIDList = [];
 
-  var _winCutoffTop = -218/2;
-  var _winCutoffBot = 218/2;
+  var _winCutoffTop = -109;
+  var _winCutoffBot = 109;
 
   var n = 0;
   var _IDList = ["1"];
-  var _currentWin = $(".window#"+ _IDList[n]);
+  var _currentWin = $(".innerWindow#"+ _IDList[n]);
 
   $("ol").sortable();
   var lastScrollTop = 0; // CHECK
@@ -71,7 +66,7 @@ $(document).ready(function(){
 
   function start(){
     $(document).on("click", "#executeButton", function(){
-      $(".window").each(function(){
+      $(".innerWindow").each(function(){
         var _tabs = $(this).children("ol").children(".tab"); // Change .tabList to ol
         chrome.windows.create(function(newWindow){
           _tabs.each(function(){
@@ -98,14 +93,15 @@ $(document).ready(function(){
       }
     });
 
-    $("#addWindow").click(function(){
+    $(document).on("click", ".addWindow", function(){
       _windowCount++;
       _windowID++;
       var _winID = _windowID.toString();
       _IDList.push(_winID);
-      $(this).before("<div class = 'window' id = " + _winID +
-      "><div class='closeWindow'><b></b><b></b><b></b><b></b></div>" +
-      "<ol id = " + _winID + "></ol>");
+      $(this).parents("#windowSection").append("<div class = 'window'>" +
+        "<div class='closeWindow'><b></b><b></b><b></b><b></b></div>" +
+        "<br><div class = 'innerWindow' id ="+_winID+"><ol id = "+_winID+
+        "></ol></div><div class = 'addWindow'><div class  = 'cross'></div></div></div>");
       console.log(_IDList);
     });
 
@@ -141,7 +137,7 @@ $(document).ready(function(){
     });
 
     $("#windowSection").on("scroll", function(){
-        _currentWin = $(".window#"+ _IDList[n]);
+        _currentWin = $(".innerWindow#"+ _IDList[n]);
         var _currentWinTop = _currentWin.position().top;
         if (_currentWinTop < _winCutoffTop){
           n++;
@@ -156,18 +152,6 @@ $(document).ready(function(){
         /*console.log(_currentWin);
         console.log(_currentWinTop);*/
     });
-
-    /*$(".button").hover(function(){
-      var thisButton = $(this);
-      var thisButtonID = $(this).attr("id");
-      if (thisButtonID == "addTabs"){
-        thisButton.css("border-bottom", "4px solid rgb(200, 200, 225)");
-      }
-
-    }, function(){
-
-    });*/
-
   }
 
   setup();
