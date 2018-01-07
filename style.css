@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 
-::-webkit-scrollbar{  /*Improve windowSection scrollbar?*/
+::-webkit-scrollbar{
   width: 5px;
   background-color: #F5F5F5;
   border-radius: 5px;
@@ -31,11 +31,6 @@ body{
   -khtml-user-select: none;
   -webkit-user-select: none;
   background-color: white;
-  /* Introduced in IE 10.
-   See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-
-  -ms-user-select: none;
-  user-select: none;*/
 }
 
 h3{
@@ -58,15 +53,13 @@ img{
 }
 
 #windowSection{
-
-    float: left;
-      max-height: 275px;
-      overflow-y: overlay;
-      overflow-x: hidden;
-    height: auto;
-
-    width: 340px;
-    padding-right: 10px;
+  float: left;
+  max-height: 275px;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  height: auto;
+  width: 340px;
+  padding-right: 10px;
 }
 
 .window{

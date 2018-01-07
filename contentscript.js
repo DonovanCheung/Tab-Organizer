@@ -4,7 +4,7 @@ with the literal tab and window in the chrome browser, the variable "_tab"
 and "_window" are used as placeholders for said tab and window in the
 extension)
 
-IDEAS
+IDEAS FOR IMPROVEMENT
 If a _window is empty, should I still create an empty window
 Should users be able to drag _tabs between _windows
 Double click to edit the url
@@ -29,7 +29,6 @@ $(document).ready(function(){
   var _currentWin = $(".innerWindow#"+ _IDList[n]);
 
   $("ol").sortable();
-  var lastScrollTop = 0; // CHECK
 
   function setup(tab){
     chrome.windows.getCurrent(getWindows);
@@ -67,7 +66,7 @@ $(document).ready(function(){
   function start(){
     $(document).on("click", "#executeButton", function(){
       $(".innerWindow").each(function(){
-        var _tabs = $(this).children("ol").children(".tab"); // Change .tabList to ol
+        var _tabs = $(this).children("ol").children(".tab");
         chrome.windows.create(function(newWindow){
           _tabs.each(function(){
             for (var i = 0; i < tabIDList.length; i++){
@@ -102,12 +101,11 @@ $(document).ready(function(){
         "<div class='closeWindow'><b></b><b></b><b></b><b></b></div>" +
         "<br><div class = 'innerWindow' id ="+_winID+"><ol id = "+_winID+
         "></ol></div><div class = 'addWindow'><div class  = 'cross'></div></div></div>");
-      console.log(_IDList);
     });
 
     $(document).on("click", ".closeWindow", function(){
       if (_windowCount > 1){
-        var _deadWin = $(this).parent();
+        var _deadWin = $(this).parent().children('.innerWindow');
         var _deadWinID = _deadWin.attr("id");
         var _tabs = _deadWin.children("ol").html();
         var index = _IDList.indexOf(_deadWinID);
@@ -115,13 +113,18 @@ $(document).ready(function(){
         $("#tabSection ol").append(_tabs);
         $("#" + _deadWinID).remove();
         $("#" + _deadWinID).remove();
+        $(this).parent().remove();
         _windowCount--;
+        if (index < 0){
+          index = 0;
+        }
+        _currentWin = $(".innerWindow#"+ _IDList[index]);
       }
     });
 
     $(document).on("click", "#addTabs", function(){
       var _selectInTabs = $("._selectInTabs");
-      _currentWin.find("ol").append(_selectInTabs);
+      _currentWin.children("ol").append(_selectInTabs);
       _selectInTabs.removeClass("_selectInTabs");
       $("ol").sortable();
     });
@@ -141,16 +144,14 @@ $(document).ready(function(){
         var _currentWinTop = _currentWin.position().top;
         if (_currentWinTop < _winCutoffTop){
           n++;
-          _currentWin = $(".window#"+_IDList[n]);
+          _currentWin = $(".innerWindow#"+_IDList[n]);
           _currentWinTop = _currentWin.position().top;
         }
         else if (_currentWinTop > _winCutoffBot){
           n--;
-          _currentWin = $(".window#"+_IDList[n]);
+          _currentWin = $(".innerWindow#"+_IDList[n]);
           _currentWinTop = _currentWin.position().top;
         }
-        /*console.log(_currentWin);
-        console.log(_currentWinTop);*/
     });
   }
 

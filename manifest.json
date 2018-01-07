@@ -1,13 +1,13 @@
 {
 "name": "Tab Organizer",
-"version": "2.0",
+"version": "2.1.1",
 "manifest_version": 2,
 
 "description": "Categorize your tabs",
 
 "content_scripts": [{
 "matches": ["<all_urls>"],
-  "js": ["jquery-3.2.1.js", "jquery-ui.js", "jquery-ui.min.js"],
+  "js": ["jquery-3.2.1.min.js", "jquery-ui.min.js"],
   "run_at": "document_end"
 }],
 
